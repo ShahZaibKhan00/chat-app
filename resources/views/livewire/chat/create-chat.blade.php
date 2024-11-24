@@ -21,7 +21,7 @@
             </div>
 
         </div>
-        <div class="overflow-x-auto bg-white rounded-lg shadow overflow-y-auto">
+        <div class="overflow-x-auto bg-white text-black rounded-lg shadow overflow-y-auto">
             <table
                 class="border-collapse table-auto w-full whitespace-no-wrap bg-white table-striped">
                 <thead>

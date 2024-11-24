@@ -16,7 +16,7 @@ class CreateChat extends Component
     protected $message = "Hello Peter";
     // public $receivedId;
     public function checkConversation($receivedId) {
-        dd($receivedId);
+        // dd($receivedId);
         $conversation_checked = Conversation::where([
             'receiver_id' => Auth::id(),
             'sender_id' => $receivedId
@@ -42,6 +42,8 @@ class CreateChat extends Component
 
             $conversation->last_time_message = $message->created_at;
             $conversation->save();
+
+            dd("Save conversation", $conversation);
         }
         else {
             dd("Conversation Already exists");

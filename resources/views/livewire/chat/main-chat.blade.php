@@ -10,7 +10,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 flex h-screen">
-                    <div class="w-1/5 border-r-2">
+                    <div class="w-1/4 border-r-2">
                         @livewire('Chat.ChatList')
                     </div>
                     {{-- {{ __("You're logged in!") }} --}}
