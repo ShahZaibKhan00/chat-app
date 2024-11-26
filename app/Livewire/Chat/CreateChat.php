@@ -20,11 +20,8 @@ class CreateChat extends Component
         $conversation_checked = Conversation::where([
             'receiver_id' => Auth::id(),
             'sender_id' => $receivedId
-            ])
-        ->orWhere([
-            'receiver_id' => $receivedId,
-            'sender_id' => Auth::id(),
-        ])->get();
+            ])->orWhere('receiver_id', $receivedId)
+            ->where('sender_id', Auth::id())->get();
 
         if (count($conversation_checked) == 0) {
             $conversation = Conversation::create([
@@ -45,7 +42,7 @@ class CreateChat extends Component
 
             dd("Save conversation", $conversation);
         }
-        else {
+        else if(count($conversation_checked) >= 1){
             dd("Conversation Already exists");
         }
     }
