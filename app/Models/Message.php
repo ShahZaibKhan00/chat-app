@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Conversation;
 use Illuminate\Database\Eloquent\Model;
@@ -22,8 +23,7 @@ class Message extends Model
 
     protected function createdAt(): Attribute
     {
-        // return Attribute::get(fn($value) => $value->diffForHumans(now(), CarbonInterface::DIFF_RELATIVE_AUTO, true));
-        return Attribute::get(fn($value) => \Carbon\Carbon::parse($value)->shortAbsoluteDiffForHumans());
+        return Attribute::get(fn($value) => Carbon::parse($value)->shortAbsoluteDiffForHumans());
     }
 
     /**
