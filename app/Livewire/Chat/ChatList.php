@@ -49,7 +49,7 @@ class ChatList extends Component
         $this->selected_chat = $conversation;
         $this->receiver_instance = User::find($receiver_id);
         // dd($this->selected_chat, "Receiver", $receiver_id);
-        $this->dispatch(Chatbox::class, 'loadConversation', $this->selected_chat, $this->receiver_instance);
+        $this->dispatch('loadConversation', $this->selected_chat, $this->receiver_instance);
     }
 
     public function render()

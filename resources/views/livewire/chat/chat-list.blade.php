@@ -1,6 +1,6 @@
 <div>
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-    <div class="header border-t-2 border-b-2 mr-4">
+    <div class="header border-t-2 border-b-2 font-semibold text-2xl mr-4 h-12 mb-2">
         {{ Auth::user()->name }}
     </div>
     <div class="chatlist">

@@ -10,16 +10,16 @@ use App\Models\Conversation;
 
 class Chatbox extends Component
 {
-    // #[On('loadConversation')]
-
-    public $selected_conversation, $receiver_instance;
+    public $selected_conversation;
+    public $receiver_instance;
     public $paginate_var = 10;
-    public $message, $message_count;
+    public $message;
+    public $message_count;
 
-    // protected $listeners = ['loadConversation'];
-
+    protected $listeners = ['loadConversation'];
+    #[On('loadConversation')]
     public function loadConversation(Conversation $conversation, User $receiver) {
-        dd($conversation, "Register", $receiver);
+        // dd($conversation, "Register", $receiver);
         $this->selected_conversation = $conversation;
         $this->receiver_instance = $receiver;
 
@@ -27,6 +27,8 @@ class Chatbox extends Component
         $this->message = Message::where('conversation_id', $this->selected_conversation->id)
             ->skip($this->message_count - $this->paginate_var)
             ->take($this->paginate_var)->get();
+
+            // dd($this->receiver_instance->name);
     }
 
     public function render()
