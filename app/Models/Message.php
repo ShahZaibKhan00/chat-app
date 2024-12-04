@@ -2,11 +2,9 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Conversation;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Message extends Model
@@ -21,9 +19,16 @@ class Message extends Model
         'seen'
     ];
 
-    protected function createdAt(): Attribute
+    // Chat List Format
+    protected function getCreatedshortAttribute()
     {
-        return Attribute::get(fn($value) => Carbon::parse($value)->shortAbsoluteDiffForHumans());
+        return $this->created_at->shortAbsoluteDiffForHumans();
+    }
+
+    // Chat Box Message Format
+    protected function getCreatedformatAttribute()
+    {
+        return $this->created_at->format('m: i a');
     }
 
     /**

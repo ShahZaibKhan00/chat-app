@@ -1,48 +1,84 @@
 <div class="px-4 w-full">
     {{-- Nothing in the world is as soft and yielding as water. --}}
     @if ($selected_conversation)
-        <div class="header w-full border-t-2 py-2 text-gray-600 px-4 capitalize font-semibold text-2xl border-b-2 h-12 mb-2">
-            {{ $receiver_instance->name ?? "Joh" }}
+        <div class="header w-full flex gap-2 border-t-2 py-2 text-gray-600 px-4 capitalize font-semibold text-2xl border-b-2 h-12 mb-2">
+            <img src="{{ Avatar::create($receiver_instance->name)->toBase64() }}" alt="" srcset="">
+            <p>{{ $receiver_instance->name ?? "Joh" }}</p>
         </div>
-        <div class="chat">
-
-            <div
-                class="flex flex-col w-full max-w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                    <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-                </div>
-                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will really
-                    appreciate the improvements.</p>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-            </div>
-            {{-- <div class="p-2 text-md bg-blue-500 rounded-e-2xl rounded-tl-2xl">
-                <div>
-                    <p class="text-white">Lorem ipsum dolor sit amet consectetur, adipisicing
-                        elit. Voluptatem temporibus eligendi laborum odio veniam atque voluptas iure, praesentium,
-                        ipsa repudiandae at sequi est animi officiis dolor. Ipsum sapiente magni laborum?
-                    </p> --}}
-                    {{-- timestamp and seen--}}
-                    {{-- <div class="flex justify-end">
-                        <span class="text-sm text-right px-1">5 hours ago</span>
+        <div class="chatbox" style="overflow-y: auto; max-height: calc(100vh - 150px);">
+            @foreach ($messages as $message)
+                <div
+                    class="flex flex-col space-y-4 mb-2 w-full max-w-full leading-1.5 p-4 rounded-e-xl rounded-es-xl dark:bg-gray-700
+                    @if ($message->sender_id == Auth::id())
+                        bg-blue-200 justify-end
+                    @else
+                        border-gray-200 bg-gray-200
+                    @endif">
+                    <p class="text-sm font-normal text-gray-900 dark:text-white @if ($message->sender_id == Auth::id())
+                        flex justify-end
+                    @endif" wire:key='{{ $message->id }}'>
+                        {{ $message->body }}
+                    </p>
+                    <div class="flex justify-end">
+                        <span class="text-sm text-right pt-1">{{ $message->createdformat }}</span>
                         <svg class="h-8 w-8 text-gray-700" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                             fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" />
                             <path d="M5 12l5 5l10 -10" />
-                        </svg> --}}
-                            {{-- Double Tick --}}
-                        {{-- <svg class="h-8 w-8 text-blue-500" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" />
-                            <path d="M7 12l5 5l10 -10" />
-                            <path d="M2 12l5 5m5 -5l5 -5" />
-                        </svg> --}}
-                    {{-- </div>
-                </div> --}}
-            </div>
+                        </svg>
+                    </div>
+                </div>
+            @endforeach
         </div>
-
     @else
-        No Conversation Selected
+        <div class="w-full text-4xl text-green-800 font-bold items-center justify-center flex bg-gray-400 h-screen">
+            <h1>No Conversation Selected</h1>
+        </div>
     @endif
+
+    <script>
+        // window.addEventListener('rowChattoBottom', event => {
+        //     console.log("Scroll Event Triggered");
+        //     const chatbox = document.querySelector(".chatbox");
+        //     if (chatbox) {
+        //         setTimeout(() => {
+        //             chatbox.scrollTop = chatbox.scrollHeight;
+        //         }, 100); // Delay
+        //     }
+        // });
+
+        window.addEventListener('rowChattoBottom', event => {
+            const chatbox = document.querySelector(".chatbox");
+
+            if (chatbox) {
+                setTimeout(() => {
+                    chatbox.scrollTop = chatbox.scrollHeight; // Scroll to bottom
+                }, 100);
+            }
+        });
+    </script>
+    {{-- <script>
+        window.addEventListener('rowChattoBottom', event => {
+            console.log("Scroll Event Triggered");
+
+            const chatbox = document.querySelector(".chatbox");
+            const lastMessage = chatbox.lastElementChild;
+
+            if (lastMessage) {
+                // Use IntersectionObserver for better performance
+                const observer = new IntersectionObserver((entries, observer) => {
+                    console.log("conditions: ")
+
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            chatbox.scrollTop = chatbox.scrollHeight;  // Scroll to the bottom
+                            observer.disconnect();  // Disconnect observer once scrolling is done
+                        }
+                    });
+                }, { threshold: 1.0 });  // Trigger when the element is fully visible
+
+                observer.observe(lastMessage);
+            }
+        });
+    </script> --}}
 </div>

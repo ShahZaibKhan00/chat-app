@@ -13,10 +13,10 @@ class Chatbox extends Component
     public $selected_conversation;
     public $receiver_instance;
     public $paginate_var = 10;
-    public $message;
+    public $messages;
     public $message_count;
 
-    protected $listeners = ['loadConversation'];
+    protected $listeners = ['loadConversation', 'pushedMessage', 'loadMoreMessages'];
     #[On('loadConversation')]
     public function loadConversation(Conversation $conversation, User $receiver) {
         // dd($conversation, "Register", $receiver);
@@ -24,15 +24,28 @@ class Chatbox extends Component
         $this->receiver_instance = $receiver;
 
         $this->message_count = Message::where('conversation_id', $this->selected_conversation->id)->count();
-        $this->message = Message::where('conversation_id', $this->selected_conversation->id)
+        $this->messages = Message::where('conversation_id', $this->selected_conversation->id)
             ->skip($this->message_count - $this->paginate_var)
             ->take($this->paginate_var)->get();
 
-            // dd($this->receiver_instance->name);
+        $this->dispatch('selectedChat');
+    }
+
+    #[On('pushMessage')]
+    public function pushMessage($message_id) {
+        $new_message = Message::find($message_id);
+        $this->messages->push($new_message);
+        $this->dispatch('rowChattoBottom');
+    }
+
+    public function loadMoreMessages()
+    {
+        dd("Reached maximum 10");
     }
 
     public function render()
     {
+        // $this->dispatch('rowChattoBottom');
         return view('livewire.chat.chatbox');
     }
 }

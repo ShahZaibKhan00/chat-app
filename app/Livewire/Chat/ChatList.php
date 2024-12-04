@@ -14,7 +14,7 @@ class ChatList extends Component
     public $receiver_instance;
     public $selected_chat;
 
-    protected $listeners = ['chatSelected'];
+    protected $listeners = ['chatSelected', 'refreshMessage' => '$refresh'];
 
     function mount()
     {
@@ -50,6 +50,7 @@ class ChatList extends Component
         $this->receiver_instance = User::find($receiver_id);
         // dd($this->selected_chat, "Receiver", $receiver_id);
         $this->dispatch('loadConversation', $this->selected_chat, $this->receiver_instance);
+        $this->dispatch('updateSendMessage', $this->selected_chat, $this->receiver_instance);
     }
 
     public function render()
