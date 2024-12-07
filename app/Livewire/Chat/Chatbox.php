@@ -17,6 +17,7 @@ class Chatbox extends Component
     public $message_count;
 
     protected $listeners = ['loadConversation', 'pushedMessage', 'loadMoreMessages'];
+
     #[On('loadConversation')]
     public function loadConversation(Conversation $conversation, User $receiver) {
         // dd($conversation, "Register", $receiver);
@@ -38,6 +39,7 @@ class Chatbox extends Component
         $this->dispatch('rowChattoBottom');
     }
 
+    #[On('loadMoreMessages')]
     public function loadMoreMessages()
     {
         dd("Reached maximum 10");
