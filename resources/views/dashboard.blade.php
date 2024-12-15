@@ -16,4 +16,7 @@
             </div>
         </div>
     </div>
+    <script>
+        // alert("sjdgas")
+    </script>
 </x-app-layout>

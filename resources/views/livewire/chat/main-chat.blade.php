@@ -13,7 +13,7 @@
                     <div class="w-1/4 border-r-2">
                         @livewire('Chat.ChatList')
                     </div>
-                    <div class="w-4/5 h-screen space-y-5 overflow-y-auto chat_box_container">
+                    <div class="w-4/5 h-max space-y-5 overflow-y-auto chat_box_container">
                         @livewire('chat.chatbox')
                         <div class="">
                             @livewire('chat.send-message')
@@ -25,12 +25,14 @@
     </div>
 
     <script>
+        // alert("h")
+
         window.addEventListener('selectedChat', event => {
             const chatBoxContainer = document.querySelector(".chat_box_container");
             if (chatBoxContainer) {
-            chatBoxContainer.scrollTop = chatBoxContainer.scrollHeight;
+                chatBoxContainer.scrollTop = chatBoxContainer.scrollHeight;
             } else {
-            console.error("Element with class '.chat_box_container' not found.");
+                console.error("Element with class '.chat_box_container' not found.");
             }
         });
     </script>
